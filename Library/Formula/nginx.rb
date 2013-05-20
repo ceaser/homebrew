@@ -17,7 +17,8 @@ class Nginx < Formula
   option 'with-passenger', 'Compile with support for Phusion Passenger module'
   option 'with-webdav', 'Compile with support for WebDAV module'
   option 'with-debug', 'Compile with support for debug log'
-
+  option 'with-upload', 'Compile support for upload module (http://www.grid.net.ru/nginx/upload.en.html) and upload progress'
+  
   option 'with-spdy', 'Compile with support for SPDY module' if build.devel?
 
   skip_clean 'logs'
@@ -63,6 +64,17 @@ class Nginx < Formula
     args << passenger_config_args if build.include? 'with-passenger'
     args << "--with-http_dav_module" if build.include? 'with-webdav'
     args << "--with-debug" if build.include? 'with-debug'
+
+    if build.include? 'with-upload'
+      `mkdir -p /tmp/nginx_upload; mkdir -p /tmp/nginx_upload-progress`
+      `cd /tmp/ && curl -O http://www.grid.net.ru/nginx/download/nginx_upload_module-2.2.0.tar.gz`
+      `tar xzf /tmp/nginx_upload_module-2.2.0.tar.gz --directory /tmp/nginx_upload --strip 1`
+      `cd /tmp/ && curl -O http://cloud.github.com/downloads/masterzen/nginx-upload-progress-module/nginx_uploadprogress_module-0.9.0.tar.gz"`
+      `tar xzf /tmp/nginx_uploadprogress_module-0.9.0.tar.gz  --directory /tmp/nginx_upload-progress --strip 1`
+
+      args << "--add-module=/tmp/nginx_upload"
+      args << "--add-module=/tmp/nginx_upload-progress"
+    end
 
     if build.devel?
       args << "--with-http_spdy_module" if build.include? 'with-spdy'
