@@ -69,7 +69,7 @@ class Nginx < Formula
       `mkdir -p /tmp/nginx_upload; mkdir -p /tmp/nginx_upload-progress`
       `cd /tmp/ && curl -O http://www.grid.net.ru/nginx/download/nginx_upload_module-2.2.0.tar.gz`
       `tar xzf /tmp/nginx_upload_module-2.2.0.tar.gz --directory /tmp/nginx_upload --strip 1`
-      `cd /tmp/ && curl -O http://cloud.github.com/downloads/masterzen/nginx-upload-progress-module/nginx_uploadprogress_module-0.9.0.tar.gz"`
+      `cd /tmp/ && curl -O http://cloud.github.com/downloads/masterzen/nginx-upload-progress-module/nginx_uploadprogress_module-0.9.0.tar.gz`
       `tar xzf /tmp/nginx_uploadprogress_module-0.9.0.tar.gz  --directory /tmp/nginx_upload-progress --strip 1`
 
       args << "--add-module=/tmp/nginx_upload"
